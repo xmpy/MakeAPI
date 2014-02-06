@@ -45,7 +45,6 @@ function getApiUser( mongoose ) {
 }
 
 habitat.load();
-
 env = new habitat();
 
 dbh = require( "../lib/mongoose" )( env, function( err ) {
