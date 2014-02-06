@@ -1,18 +1,23 @@
 /* This script will migrate all ApiUser records into ApiApp records
  *
  * run this script from the root of the project like so:
- * node migrations/20140206-apiApp
+ * node migrations/20140206-apiApp <existingContact>::<domain> <existingContact>::<domain> ...
  */
 
 var habitat = require( "habitat" ),
     async = require( "async" ),
     validate = require( "mongoose-validator" ).validate,
-    contentType = process.argv[ 2 ],
-    publicKey = process.argv[ 3 ],
-    concurrency = process.argv[ 4 ] || 4,
+    slicedArgs = process.argv.slice( 2 ),
     mongoStreamEnded = false,
     env,
     mongoose;
+
+var domainMap = {};
+
+slicedArgs.forEach(function( arg ) {
+  arg = arg.split( '::' );
+  domainMap[ arg[0] ] = arg[1];
+});
 
 function getApiUser( mongoose ) {
   return mongoose.model( "ApiUser" , new mongoose.Schema({
@@ -62,6 +67,7 @@ dbh = require( "../lib/mongoose" )( env, function( err ) {
           contact: doc.contact,
           privatekey: doc.privatekey,
           publickey: doc.publickey,
+          domain: domainMap[ doc.contact ],
           revoked: doc.revoked,
           admin: doc.admin
         });
