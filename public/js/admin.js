@@ -516,6 +516,7 @@ document.addEventListener( "DOMContentLoaded", function() {
   pager.goToPage( 1 );
 
   var contactEmail = document.querySelector( "#app-contact"),
+      domain = document.querySelector( "#app-domain" ),
       createApp = document.querySelector( "#add-app" ),
       createResult = document.querySelector( "#app-result" );
 
@@ -544,7 +545,8 @@ document.addEventListener( "DOMContentLoaded", function() {
       }
     };
     request.send(JSON.stringify({
-      contact: contactEmail.value
+      contact: contactEmail.value,
+      domain: domain.value
     }));
   }
 

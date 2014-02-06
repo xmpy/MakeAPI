@@ -31,7 +31,7 @@ module.exports = function( apiAppModel, audience, login ) {
     addApp: function( req, res ) {
       var newApp = req.body;
 
-      if ( !newApp.contact ) {
+      if ( !newApp.contact || !newApp.domain ) {
         return res.json( 400, { error: "Missing data" } );
       }
 
